@@ -6,7 +6,7 @@ import io
 # --- THÔNG TIN CẦN THAY ĐỔI ---
 # Dán Webhook Test URL mà bạn đã sao chép từ n8n ở Bước 2 vào đây
 
-N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/e7464a38-9ad7-4c7b-94b3-0e1ce1e2015e" # THAY THẾ XXXXXX BẰNG URL CỦA BẠN
+N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/f712355a-107a-4e59-8ce3-1b52b3a2022c" # THAY THẾ XXXXXX BẰNG URL CỦA BẠN
 
 # Nếu bạn có dùng API Key trong Webhook của n8n (phần "Authentication"), thì điền vào đây
 # Nếu chưa dùng, cứ để rỗng hoặc xóa dòng này đi để đơn giản cho lần đầu
