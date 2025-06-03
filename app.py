@@ -5,7 +5,6 @@ import io
 
 # --- THÔNG TIN CẦN THAY ĐỔI ---
 # Dán Webhook Test URL mà bạn đã sao chép từ n8n ở Bước 2 vào đây
-
 N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/585b9b1f-542f-421b-8a00-3ef5be605275" # THAY THẾ XXXXXX BẰNG URL CỦA BẠN
 
 # Nếu bạn có dùng API Key trong Webhook của n8n (phần "Authentication"), thì điền vào đây
@@ -13,8 +12,7 @@ N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/585b9b1f-542f-421b-8a00-3ef
 # N8N_API_KEY = "" # Ví dụ: "your_secret_key_for_n8n_webhook"
 # --- KẾT THÚC THÔNG TIN CẦN THAY ĐỔI ---
 
-
-st.title("App Nhận Diện Bệnh Cá 🐟")
+st.title("CÁ BẠN BỊ GÌ VẬY???🐟")
 
 # Cho phép người dùng tải ảnh lên
 uploaded_file = st.file_uploader("Tải ảnh cá lên đây", type=["jpg", "jpeg", "png"])
@@ -27,7 +25,7 @@ if uploaded_file is not None:
     st.success("Ảnh đã sẵn sàng!")
 
     # Nút để bắt đầu nhận diện
-    if st.button("🚀 Nhận diện bệnh"):
+    if st.button("😼 Nhận diện bệnh"):
         st.info("Đang gửi ảnh đến hệ thống để phân tích...")
         try:
             # Đọc dữ liệu ảnh (bytes) và mã hóa thành chuỗi Base64
