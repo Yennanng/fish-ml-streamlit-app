@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import base64
 
-st.title("🐟 Hệ thống nhận diện bệnh ở cá ")
+st.title("🐟 Hệ thống nhận diện bệnh cá ")
 
 uploaded_file = st.file_uploader("Upload an image of your fish", type=["jpg", "jpeg", "png"])
 
@@ -13,7 +13,7 @@ if uploaded_file:
 
     # Gửi ảnh đến n8n webhook
     response = requests.post(
-        "https://yennan2275.app.n8n.cloud/webhook/fish-dec",
+        "https://yennan2275.app.n8n.cloud/webhook-test/fish-dec",
         json={"image_base64": base64_img}
     )
 
