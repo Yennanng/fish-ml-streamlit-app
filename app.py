@@ -12,7 +12,7 @@ N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook/3020bb98-bbef-4302-b3d4-0903c103
 # N8N_API_KEY = "" # Ví dụ: "your_secret_key_for_n8n_webhook"
 # --- KẾT THÚC THÔNG TIN CẦN THAY ĐỔI ---
 
-st.title("KIỂM TRA CÁ BẠN BỊ GÌ VẬY???🐟")
+st.title("KIỂM TRA XEM CÁ BẠN BỊ GÌ VẬY???🐟")
 
 # Cho phép người dùng tải ảnh lên
 uploaded_file = st.file_uploader("Tải ảnh cá lên đây", type=["jpg", "jpeg", "png"])
