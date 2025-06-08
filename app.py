@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # --- THÔNG TIN CẦN THAY ĐỔI ---
-N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/my-app"  # Sử dụng URL TEST nếu đang ở chế độ "Listen for Test Event"
+N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook/fish-image"  # Sử dụng URL TEST nếu đang ở chế độ "Listen for Test Event"
 # --- KẾT THÚC ---
 
 st.title("❤️ HỆ THỐNG NHẬN DIỆN BỆNH CÁ TỰ ĐỘNG")
