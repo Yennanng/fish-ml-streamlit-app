@@ -5,7 +5,7 @@ import requests
 N8N_WEBHOOK_URL = "https://n8n.n2nai.io/webhook-test/my-app"  # Sử dụng URL TEST nếu đang ở chế độ "Listen for Test Event"
 # --- KẾT THÚC ---
 
-st.title("🧠 HỆ THỐNG NHẬN DIỆN BỆNH CÁ TỰ ĐỘNG")
+st.title("❤️ HỆ THỐNG NHẬN DIỆN BỆNH CÁ TỰ ĐỘNG")
 
 # Cho phép tải ảnh lên
 uploaded_file = st.file_uploader("📸 Tải ảnh cá lên (jpg, jpeg, png):", type=["jpg", "jpeg", "png"])
