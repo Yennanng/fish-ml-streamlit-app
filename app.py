@@ -21,7 +21,7 @@ if uploaded_file is not None:
 
     if st.button("📤 Gửi ảnh đến n8n"):
         #Lưu url webhook n8n
-        webhook_url = "https://yennan2275.app.n8n.cloud/webhook-test/my-app"
+        webhook_url = "https://phuongnghi.app.n8n.cloud/webhook-test/my-app"
 
         #Tạo kqua model của thằng Robo
         CLIENT = InferenceHTTPClient(
