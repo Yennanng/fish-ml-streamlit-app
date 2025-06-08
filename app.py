@@ -6,7 +6,7 @@ from io import BytesIO
 from inference_sdk import InferenceHTTPClient
 
 st.set_page_config(page_title="Upload Fish Image", page_icon="🐟")
-st.title("🐟 Fish Image Uploader")
+st.title("🐟 Hệ thống phát hiện bệnh cá")
 
 uploaded_file = st.file_uploader("Upload fish image", type=["jpg", "jpeg", "png"])
 
