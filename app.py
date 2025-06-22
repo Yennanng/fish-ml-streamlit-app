@@ -9,6 +9,10 @@ import json
 import os
 
 # ------------------------
+# Giữ nguyên cấu hình Streamlit & CSS gốc
+st.set_page_config(page_title=" Hệ thống phát hiện bệnh ở cá", page_icon="🐟", layout="centered")
+
+# ------------------------
 st.markdown("""
     <style>
     html, body, [data-testid="stAppViewContainer"] {
@@ -73,7 +77,7 @@ if uploaded_file is not None:
     img_base64 = base64.b64encode(buffered.getvalue()).decode()
 
     if st.button("📤 Phân tích tình trạng bệnh"):
-        webhook_url = "https://yennan.app.n8n.cloud/webhook/fish-detec-app"
+        webhook_url = "https://yennan.app.n8n.cloud/webhook/ngan-fish"
 
         CLIENT = InferenceHTTPClient(
             api_url="https://serverless.roboflow.com",
@@ -88,7 +92,7 @@ if uploaded_file is not None:
         })
 
         if response.status_code == 200:
-            st.success("✅ Ảnh đã được gửi đến hệ thống! Vui lòng chờ trong giây lát...")
+            st.success("✅ Ảnh đã được gửi đến n8n! Vui lòng chờ...")
             sleep(10)
             data = response.json()
 
@@ -118,17 +122,16 @@ if uploaded_file is not None:
         st.header("🗂️ Lịch sử tra cứu")
         with open(HISTORY_FILE, "r") as f:
             history = json.load(f)
+            # Hiển thị nút hỏi gửi mail
+            st.write("📧 Bạn có muốn nhận kết quả phân tích qua email không?")
+            col1, col2 = st.columns(2)
 
-        # Hiển thị nút hỏi gửi mail
-        st.write("📧 Bạn có muốn nhận kết quả phân tích qua email không?")
-        col1, col2 = st.columns(2)
+            if col1.button("✉️ Gửi mail", key="send_mail_btn"):
+                st.session_state["show_email_input"] = True
 
-        if col1.button("✉️ Gửi mail", key="send_mail_btn"):
-            st.session_state["show_email_input"] = True
-
-        if col2.button("🙅 Không, cảm ơn", key="no_mail_btn"):
-            st.session_state["show_email_input"] = False
-            st.info("🙏 Cảm ơn bạn đã sử dụng hệ thống!")
+            if col2.button("🙅 Không, cảm ơn", key="no_mail_btn"):
+                st.session_state["show_email_input"] = False
+                st.info("🙏 Cảm ơn bạn đã sử dụng hệ thống!")
 
         if history:
             for i, item in enumerate(reversed(history[-10:]), 1):
@@ -142,8 +145,6 @@ if uploaded_file is not None:
         else:
             st.info("📭 Chưa có lịch sử tra cứu.")
 
-
-
     # Ở ngoài: nếu đã bấm Gửi mail thì hiện form nhập mail
     if st.session_state.get("show_email_input", False):
         user_email = st.text_input("📨 Nhập email của bạn để nhận kết quả:")
@@ -152,10 +153,30 @@ if uploaded_file is not None:
             ai_reply = st.session_state.get("ai_reply", "Không có dữ liệu")
             file_name = uploaded_file.name if uploaded_file else "Unknown"
 
+            # ✅ DỰNG MẪU HỒ SƠ BỆNH ÁN
+            medical_record = f"""
+🐟 HỒ SƠ BỆNH ÁN CÁ \n
+
+👤 Người nuôi (Email): {user_email}\n
+
+📁 Tên file ảnh:{file_name}\n
+
+🩺 Kết quả chẩn đoán: 
+{ai_reply}\n
+
+📋 Hướng dẫn điều trị: 
+- Thực hiện đúng các bước chăm sóc, vệ sinh hồ nuôi.
+- Áp dụng các phương pháp điều trị như khuyến nghị.
+- Liên hệ bác sĩ thủy sản khi cần hỗ trợ thêm.
+
+🙏 Trân trọng,  
+Hệ thống phát hiện bệnh ở cá
+            """
+
             payload = {
                 "email": user_email,
                 "filename": file_name,
-                "ai_reply": ai_reply
+                "medical_record": medical_record
             }
 
             webhook_url = "https://yennan.app.n8n.cloud/webhook/123"
@@ -163,6 +184,6 @@ if uploaded_file is not None:
             res = requests.post(webhook_url, json=payload)
 
             if res.status_code == 200:
-                st.success(f"✅ Email đã được gửi đến {user_email}!")
+                st.success(f"✅ Hồ sơ bệnh án đã được gửi đến {user_email}!")
             else:
                 st.error(f"❌ Lỗi: {res.text}")
