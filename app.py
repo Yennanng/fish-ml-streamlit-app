@@ -92,7 +92,7 @@ if uploaded_file is not None:
         })
 
         if response.status_code == 200:
-            st.success("✅ Ảnh đã được gửi đến n8n! Vui lòng chờ...")
+            st.success("✅ Ảnh đã được gửi đến hệ thống!Bạn vui lòng chờ chút nhé...")
             sleep(10)
             data = response.json()
 
