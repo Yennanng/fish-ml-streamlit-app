@@ -9,7 +9,6 @@ import json
 import os
 
 # ------------------------
-
 st.markdown("""
     <style>
     html, body, [data-testid="stAppViewContainer"] {
@@ -54,7 +53,6 @@ Vì thế, chúng tôi mang đến một giải pháp hiện đại, dễ sử d
 
 👉 Chỉ cần một bức ảnh – phần còn lại, để chúng tôi hỗ trợ bạn.
 """)
-
 # ------------------------
 # Khởi tạo file lịch sử nếu chưa có
 HISTORY_FILE = "history.json"
@@ -67,7 +65,7 @@ if not os.path.exists(HISTORY_FILE):
 uploaded_file = st.file_uploader("📷 Vui lòng chọn ảnh cá", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    st.image(uploaded_file, caption="Ảnh bạn đã đăng tải", use_column_width=True)
+    st.image(uploaded_file, caption="Preview", use_column_width=True)
 
     image = Image.open(uploaded_file)
     buffered = BytesIO()
@@ -75,7 +73,7 @@ if uploaded_file is not None:
     img_base64 = base64.b64encode(buffered.getvalue()).decode()
 
     if st.button("📤 Phân tích tình trạng bệnh"):
-        webhook_url = "https://yennan.app.n8n.cloud/webhook/ngan-fish"
+        webhook_url = "https://yennan.app.n8n.cloud/webhook/fish-detec-app"
 
         CLIENT = InferenceHTTPClient(
             api_url="https://serverless.roboflow.com",
@@ -90,10 +88,12 @@ if uploaded_file is not None:
         })
 
         if response.status_code == 200:
-            st.success("✅ Ảnh đã được gửi để phân tích!")
+            st.success("✅ Ảnh đã được gửi đến n8n! Vui lòng chờ...")
             sleep(10)
             data = response.json()
-            st.text(data["ai_reply"])
+
+            # Lưu kết quả phân tích vào session_state để giữ vĩnh viễn cho đến khi phân tích lại
+            st.session_state["ai_reply"] = data["ai_reply"]
 
             # Lưu lịch sử
             with open(HISTORY_FILE, "r") as f:
@@ -108,21 +108,59 @@ if uploaded_file is not None:
         else:
             st.error(f"❌ Gửi thất bại. Mã lỗi: {response.status_code}")
 
-# ------------------------
-# Bổ sung: Sidebar Menu LỊCH SỬ
-with st.sidebar:
-    st.header("🗂️ Lịch sử tra cứu")
-    with open(HISTORY_FILE, "r") as f:
-        history = json.load(f)
+    # ✅ LUÔN HIỂN THỊ KẾT QUẢ PHÂN TÍCH NẾU ĐÃ CÓ
+    if "ai_reply" in st.session_state:
+        st.subheader("🧾 Kết quả phân tích bệnh:")
+        st.text(st.session_state["ai_reply"])
 
-    if history:
-        for i, item in enumerate(reversed(history[-10:]), 1):
-            st.markdown(f"""
-            **{i}.** 📁 **Tên file:** {item["filename"]}
+    # Bổ sung: Sidebar Menu LỊCH SỬ
+    with st.sidebar:
+        st.header("🗂️ Lịch sử tra cứu")
+        with open(HISTORY_FILE, "r") as f:
+            history = json.load(f)
 
-            ```
-            {item["ai_reply"]}
-            ```
-            """)
-    else:
-        st.info("📭 Chưa có lịch sử tra cứu.")
+        if history:
+            for i, item in enumerate(reversed(history[-10:]), 1):
+                st.markdown(f"""
+                **{i}.** 📁 **Tên file:** {item["filename"]}
+
+                ```
+                {item["ai_reply"]}
+                ```
+                """)
+        else:
+            st.info("📭 Chưa có lịch sử tra cứu.")
+
+        # Hiển thị nút hỏi gửi mail
+        st.write("📧 Bạn có muốn nhận kết quả phân tích qua email không?")
+        col1, col2 = st.columns(2)
+
+        if col1.button("✉️ Gửi mail", key="send_mail_btn"):
+            st.session_state["show_email_input"] = True
+
+        if col2.button("🙅 Không, cảm ơn", key="no_mail_btn"):
+            st.session_state["show_email_input"] = False
+            st.info("🙏 Cảm ơn bạn đã sử dụng hệ thống!")
+
+    # Ở ngoài: nếu đã bấm Gửi mail thì hiện form nhập mail
+    if st.session_state.get("show_email_input", False):
+        user_email = st.text_input("📨 Nhập email của bạn để nhận kết quả:")
+
+        if st.button("🚀 Xác nhận gửi email", key="confirm_send_mail_btn"):
+            ai_reply = st.session_state.get("ai_reply", "Không có dữ liệu")
+            file_name = uploaded_file.name if uploaded_file else "Unknown"
+
+            payload = {
+                "email": user_email,
+                "filename": file_name,
+                "ai_reply": ai_reply
+            }
+
+            webhook_url = "https://yennan.app.n8n.cloud/webhook/123"
+
+            res = requests.post(webhook_url, json=payload)
+
+            if res.status_code == 200:
+                st.success(f"✅ Email đã được gửi đến {user_email}!")
+            else:
+                st.error(f"❌ Lỗi: {res.text}")
