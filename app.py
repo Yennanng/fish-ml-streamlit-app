@@ -119,6 +119,17 @@ if uploaded_file is not None:
         with open(HISTORY_FILE, "r") as f:
             history = json.load(f)
 
+        # Hiển thị nút hỏi gửi mail
+        st.write("📧 Bạn có muốn nhận kết quả phân tích qua email không?")
+        col1, col2 = st.columns(2)
+
+        if col1.button("✉️ Gửi mail", key="send_mail_btn"):
+            st.session_state["show_email_input"] = True
+
+        if col2.button("🙅 Không, cảm ơn", key="no_mail_btn"):
+            st.session_state["show_email_input"] = False
+            st.info("🙏 Cảm ơn bạn đã sử dụng hệ thống!")
+
         if history:
             for i, item in enumerate(reversed(history[-10:]), 1):
                 st.markdown(f"""
@@ -131,16 +142,7 @@ if uploaded_file is not None:
         else:
             st.info("📭 Chưa có lịch sử tra cứu.")
 
-        # Hiển thị nút hỏi gửi mail
-        st.write("📧 Bạn có muốn nhận kết quả phân tích qua email không?")
-        col1, col2 = st.columns(2)
 
-        if col1.button("✉️ Gửi mail", key="send_mail_btn"):
-            st.session_state["show_email_input"] = True
-
-        if col2.button("🙅 Không, cảm ơn", key="no_mail_btn"):
-            st.session_state["show_email_input"] = False
-            st.info("🙏 Cảm ơn bạn đã sử dụng hệ thống!")
 
     # Ở ngoài: nếu đã bấm Gửi mail thì hiện form nhập mail
     if st.session_state.get("show_email_input", False):
