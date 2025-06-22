@@ -47,7 +47,7 @@ st.markdown("""
 🐟 Chúng tôi hiểu rằng mỗi con cá không chỉ là một phần trong đàn – mà còn là cả tâm huyết, công sức và tương lai của người nuôi.  
 Vì thế, chúng tôi mang đến một giải pháp hiện đại, dễ sử dụng và hiệu quả: hãy tải lên hình ảnh cá của bạn, hệ thống AI của chúng tôi sẽ tự động phân tích từng chi tiết, nhận diện sớm các dấu hiệu bất thường và phát hiện chính xác những nguy cơ tiềm ẩn về bệnh lý.
 
-🌱 Không cần đến các thiết bị đắt tiền hay quy trình rườm rà, giờ đây bạn có thể chủ động giám sát sức khỏe đàn cá của mình mọi lúc, mọi nơi – giảm thiểu thiệt hại, tiết kiệm chi phí và bảo vệ mô hình nuôi trồng một cách bền vững.
+📌 Không cần đến các thiết bị đắt tiền hay quy trình rườm rà, giờ đây bạn có thể chủ động giám sát sức khỏe đàn cá của mình mọi lúc, mọi nơi – giảm thiểu thiệt hại, tiết kiệm chi phí và bảo vệ mô hình nuôi trồng một cách bền vững.
 
 🎯 Dù bạn là hộ nuôi cá quy mô nhỏ hay đơn vị sản xuất thủy sản chuyên nghiệp, chúng tôi ở đây để đồng hành – giúp bạn phát hiện bệnh sớm, xử lý nhanh và nuôi cá thông minh hơn mỗi ngày.
 
@@ -88,7 +88,7 @@ if uploaded_file is not None:
         })
 
         if response.status_code == 200:
-            st.success("✅ Ảnh đã được gửi đến n8n! Vui lòng chờ...")
+            st.success("✅ Ảnh đã được gửi đến hệ thống! Vui lòng chờ trong giây lát...")
             sleep(10)
             data = response.json()
 
