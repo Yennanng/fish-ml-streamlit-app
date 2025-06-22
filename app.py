@@ -77,7 +77,7 @@ if uploaded_file is not None:
     img_base64 = base64.b64encode(buffered.getvalue()).decode()
 
     if st.button("📤 Phân tích tình trạng bệnh"):
-        webhook_url = "https://yennan.app.n8n.cloud/webhook/ngan-fish"
+        webhook_url = "https://yennan.app.n8n.cloud/webhook/fish-detec-app"
 
         CLIENT = InferenceHTTPClient(
             api_url="https://serverless.roboflow.com",
